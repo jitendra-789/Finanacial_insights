@@ -3,8 +3,6 @@ import pandas as pd
 import os
 import uuid
 from mistralai import Mistral
-from PyPDF2 import PdfReader  # For PDF preview
-import base64
 from unstructured.partition.pdf import partition_pdf
 
 ## Table extraction function (using unstructured package)
@@ -219,86 +217,6 @@ def main():
 
     if uploaded_file is not None:
         try:
-            # ------------------ Preview Section ------------------
-            st.markdown('<div class="section">', unsafe_allow_html=True)
-
-            # Create columns for the header and controls
-            header_col, control_col = st.columns([3, 1])
-
-            with header_col:
-                st.markdown('<div class="subheader">📖 PDF Preview</div>', unsafe_allow_html=True)
-
-            with control_col:
-                # Add zoom controls
-                zoom_level = st.select_slider(
-                    "Zoom",
-                    options=[50, 75, 100, 125, 150, 200],
-                    value=100,
-                    format_func=lambda x: f"{x}%"
-                )
-
-            try:
-                with open(st.session_state.temp_filename, "rb") as f:
-                    pdf_bytes = f.read()
-                    base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-
-                    # Get PDF info
-                    pdf_reader = PdfReader(st.session_state.temp_filename)
-                    num_pages = len(pdf_reader.pages)
-
-                    # Create tabs for different view modes
-                    preview_tab, info_tab = st.tabs(["📄 Preview", "ℹ️ Document Info"])
-
-                    with preview_tab:
-                        if num_pages > 1:
-                            current_page = st.slider("Page", 1, num_pages, 1)
-                            st.markdown(f"**Page {current_page} of {num_pages}**")
-
-                        pdf_display = f"""
-                            <div style="display: flex; justify-content: center;">
-                                <iframe 
-                                    src="data:application/pdf;base64,{base64_pdf}#page={current_page if num_pages > 1 else 1}" 
-                                    width="100%" 
-                                    height="600" 
-                                    style="zoom: {zoom_level}%;"
-                                    type="application/pdf">
-                                </iframe>
-                            </div>
-                        """
-                        st.markdown(pdf_display, unsafe_allow_html=True)
-
-                        # Download button
-                        st.download_button(
-                            label="📥 Download PDF",
-                            data=pdf_bytes,
-                            file_name="document.pdf",
-                            mime="application/pdf"
-                        )
-
-                    with info_tab:
-                        # Display PDF metadata and information
-                        st.markdown("### 📑 Document Information")
-                        
-                        col1, col2 = st.columns(2)
-                        
-                        with col1:
-                            st.markdown(f"**Pages:** {num_pages}")
-                            if pdf_reader.metadata:
-                                if pdf_reader.metadata.get('/Title'):
-                                    st.markdown(f"**Title:** {pdf_reader.metadata.get('/Title')}")
-                                if pdf_reader.metadata.get('/Author'):
-                                    st.markdown(f"**Author:** {pdf_reader.metadata.get('/Author')}")
-                                if pdf_reader.metadata.get('/Subject'):
-                                    st.markdown(f"**Subject:** {pdf_reader.metadata.get('/Subject')}")
-                            
-                        with col2:
-                            st.markdown(f"**Creator:** {pdf_reader.metadata.get('/Creator', 'N/A')}")
-                            st.markdown(f"**Producer:** {pdf_reader.metadata.get('/Producer', 'N/A')}")
-            
-                st.markdown('</div>', unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"An error occurred while processing the PDF: {e}")
-
             # ------------------ Table Extraction ------------------
             st.markdown('<div class="section">', unsafe_allow_html=True)
 
