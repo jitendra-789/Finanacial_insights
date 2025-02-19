@@ -7,7 +7,7 @@ from unstructured.partition.pdf import partition_pdf
 import nltk
 
 # # nltk.download('punkt')
-# # nltk.download('punkt_tab')
+nltk.download('punkt_tab')
 # nltk.download('all')
 
 nltk.download('punkt')         # Tokenizer
