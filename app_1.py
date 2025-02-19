@@ -7,6 +7,7 @@ from unstructured.partition.pdf import partition_pdf
 import nltk
 
 nltk.download('punkt')
+nltk.download('punkt_tab')
 
 ## Table extraction function (using unstructured package)
 def extract_tables_from_pdf(filename, strategy='hi_res'):
