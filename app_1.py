@@ -6,9 +6,17 @@ from mistralai import Mistral
 from unstructured.partition.pdf import partition_pdf
 import nltk
 
-# nltk.download('punkt')
-# nltk.download('punkt_tab')
-nltk.download('all')
+# # nltk.download('punkt')
+# # nltk.download('punkt_tab')
+# nltk.download('all')
+
+nltk.download('punkt')         # Tokenizer
+nltk.download('averaged_perceptron_tagger')  # Part-of-Speech (POS) tagging
+# nltk.download('wordnet')       # WordNet dictionary (for synonyms, antonyms)
+# nltk.download('stopwords')     # Common stopwords (e.g., "the", "is", "and")
+# nltk.download('omw-1.4')       # Open Multilingual WordNet
+# nltk.download('maxent_ne_chunker')  # Named Entity Recognition (NER)
+# nltk.download('words') 
 
 ## Table extraction function (using unstructured package)
 def extract_tables_from_pdf(filename, strategy='hi_res'):
