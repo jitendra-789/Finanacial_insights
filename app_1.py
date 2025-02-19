@@ -5,18 +5,22 @@ import uuid
 from mistralai import Mistral
 from unstructured.partition.pdf import partition_pdf
 import nltk
+# List of required NLTK resources
+required_nltk_resources = [
+    'punkt', 'averaged_perceptron_tagger', 'wordnet',
+    'stopwords', 'omw-1.4', 'maxent_ne_chunker', 'words'
+]
 
-# # nltk.download('punkt')
-nltk.download('punkt_tab')
-# nltk.download('all')
+# Function to check and download missing resources
+def ensure_nltk_resources():
+    for resource in required_nltk_resources:
+        try:
+            nltk.data.find(f'tokenizers/{resource}')  # Check if resource exists
+        except LookupError:
+            nltk.download(resource)  # Download only if missing
 
-nltk.download('punkt')         # Tokenizer
-nltk.download('averaged_perceptron_tagger')  # Part-of-Speech (POS) tagging
-# nltk.download('wordnet')       # WordNet dictionary (for synonyms, antonyms)
-# nltk.download('stopwords')     # Common stopwords (e.g., "the", "is", "and")
-# nltk.download('omw-1.4')       # Open Multilingual WordNet
-# nltk.download('maxent_ne_chunker')  # Named Entity Recognition (NER)
-# nltk.download('words') 
+# Call the function at the start of your script
+ensure_nltk_resources()
 
 ## Table extraction function (using unstructured package)
 def extract_tables_from_pdf(filename, strategy='hi_res'):
