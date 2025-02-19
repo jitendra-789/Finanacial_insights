@@ -6,8 +6,9 @@ from mistralai import Mistral
 from unstructured.partition.pdf import partition_pdf
 import nltk
 
-nltk.download('punkt')
-nltk.download('punkt_tab')
+# nltk.download('punkt')
+# nltk.download('punkt_tab')
+nltk.download('all')
 
 ## Table extraction function (using unstructured package)
 def extract_tables_from_pdf(filename, strategy='hi_res'):
