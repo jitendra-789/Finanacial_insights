@@ -4,16 +4,6 @@ import os
 import uuid
 from mistralai import Mistral
 from unstructured.partition.pdf import partition_pdf
-import nltk
-def ensure_all_nltk_resources():
-    try:
-        # Check if any resource exists (e.g., 'punkt' as a representative)
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        # If not found, download all resources
-        nltk.download('all')
-
-ensure_all_nltk_resources()
 
 ## Table extraction function (using unstructured package)
 def extract_tables_from_pdf(filename, strategy='hi_res'):
