@@ -5,7 +5,7 @@ import uuid
 from mistralai import Mistral
 from unstructured.partition.pdf import partition_pdf
 import nltk
-nltj.download('all')
+nltk.download('all')
 
 
 ## Table extraction function (using unstructured package)
